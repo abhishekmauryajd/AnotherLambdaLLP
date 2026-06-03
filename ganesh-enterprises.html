@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ganesh Enterprises – Furniture Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --green: #4caf7d;
+    --green-light: #e8f5ee;
+    --green-mid: #b2dfcc;
+    --green-dark: #2e7d55;
+    --white: #ffffff;
+    --off-white: #f9fdf9;
+    --text: #1a2e1a;
+    --muted: #6b8c6b;
+    --border: #d4ead9;
+    --shadow: 0 4px 24px rgba(76,175,125,0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text); }
+
+  /* ─── HEADER ─── */
+  header {
+    background: var(--green);
+    padding: 0 40px;
+    position: sticky; top: 0; z-index: 999;
+    box-shadow: 0 2px 16px rgba(46,125,85,0.18);
+  }
+  .header-inner { display:flex; align-items:center; justify-content:space-between; height:68px; }
+  .logo { display:flex; align-items:center; gap:12px; }
+  .logo-icon { width:40px; height:40px; background:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:20px; }
+  .logo-text h1 { font-family:'Playfair Display',serif; font-size:22px; color:white; letter-spacing:.3px; }
+  .logo-text span { font-size:11px; color:rgba(255,255,255,.8); letter-spacing:1.5px; text-transform:uppercase; }
+  nav { display:flex; gap:4px; }
+  nav a { color:rgba(255,255,255,.9); text-decoration:none; padding:8px 16px; border-radius:8px; font-size:14px; font-weight:500; transition:background .2s; cursor:pointer; }
+  nav a:hover, nav a.active { background:rgba(255,255,255,.2); color:white; }
+  .header-right { display:flex; align-items:center; gap:12px; }
+  .search-bar { background:rgba(255,255,255,.2); border:1px solid rgba(255,255,255,.3); border-radius:24px; padding:6px 16px; display:flex; align-items:center; gap:8px; }
+  .search-bar input { background:none; border:none; outline:none; color:white; font-size:13px; width:150px; }
+  .search-bar input::placeholder { color:rgba(255,255,255,.7); }
+  .cart-btn { position:relative; background:white; border:none; border-radius:50%; width:40px; height:40px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; transition:transform .2s; }
+  .cart-btn:hover { transform:scale(1.1); }
+  .cart-count { position:absolute; top:-4px; right:-4px; background:#ff6b6b; color:white; border-radius:50%; width:18px; height:18px; font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+
+  /* ─── HERO ─── */
+  .hero { background: linear-gradient(135deg, var(--green-light) 0%, #d4f0e2 60%, #eaf7f0 100%); padding: 64px 40px; display:flex; align-items:center; gap:60px; min-height:400px; }
+  .hero-text { flex:1; }
+  .hero-tag { display:inline-block; background:var(--green); color:white; border-radius:20px; padding:4px 14px; font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:20px; }
+  .hero-text h2 { font-family:'Playfair Display',serif; font-size:48px; line-height:1.15; color:var(--text); margin-bottom:16px; }
+  .hero-text h2 span { color:var(--green-dark); }
+  .hero-text p { color:var(--muted); font-size:16px; line-height:1.7; max-width:480px; margin-bottom:32px; }
+  .hero-btns { display:flex; gap:12px; }
+  .btn-primary { background:var(--green); color:white; border:none; border-radius:12px; padding:14px 28px; font-size:14px; font-weight:600; cursor:pointer; transition:background .2s,transform .2s; }
+  .btn-primary:hover { background:var(--green-dark); transform:translateY(-2px); }
+  .btn-outline { background:white; color:var(--green-dark); border:2px solid var(--green); border-radius:12px; padding:12px 28px; font-size:14px; font-weight:600; cursor:pointer; transition:.2s; }
+  .btn-outline:hover { background:var(--green-light); }
+  .hero-stats { display:flex; gap:32px; margin-top:40px; }
+  .stat { text-align:center; }
+  .stat strong { display:block; font-size:28px; font-weight:700; color:var(--green-dark); font-family:'Playfair Display',serif; }
+  .stat small { font-size:12px; color:var(--muted); }
+  .hero-img { flex:0 0 380px; display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .hero-img-card { background:white; border-radius:16px; padding:20px; text-align:center; box-shadow:var(--shadow); transition:transform .3s; }
+  .hero-img-card:hover { transform:translateY(-6px); }
+  .hero-img-card .emoji { font-size:48px; }
+  .hero-img-card p { font-size:12px; color:var(--muted); margin-top:8px; font-weight:500; }
+  .hero-img-card.tall { grid-row:span 2; display:flex; flex-direction:column; justify-content:center; }
+  .hero-img-card.tall .emoji { font-size:72px; }
+
+  /* ─── CATEGORY BAR ─── */
+  .cat-bar { background:white; border-bottom:1px solid var(--border); padding:0 40px; display:flex; align-items:center; gap:8px; overflow-x:auto; }
+  .cat-btn { flex-shrink:0; padding:14px 20px; border:none; background:none; font-size:13px; font-weight:500; color:var(--muted); cursor:pointer; border-bottom:3px solid transparent; transition:.2s; white-space:nowrap; }
+  .cat-btn:hover, .cat-btn.active { color:var(--green-dark); border-bottom-color:var(--green); }
+
+  /* ─── SECTIONS ─── */
+  .section { padding:60px 40px; }
+  .section-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:36px; }
+  .section-title { font-family:'Playfair Display',serif; font-size:32px; color:var(--text); }
+  .section-title span { color:var(--green); }
+  .see-all { color:var(--green-dark); font-size:14px; font-weight:600; cursor:pointer; text-decoration:underline; background:none; border:none; }
+
+  /* ─── PRODUCT GRID ─── */
+  .product-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr)); gap:24px; }
+  .product-card { background:white; border-radius:20px; border:1px solid var(--border); overflow:hidden; transition:transform .3s, box-shadow .3s; position:relative; }
+  .product-card:hover { transform:translateY(-6px); box-shadow:0 12px 40px rgba(76,175,125,0.18); }
+  .product-card .badge { position:absolute; top:12px; left:12px; background:var(--green); color:white; border-radius:8px; padding:3px 10px; font-size:11px; font-weight:700; z-index:1; }
+  .product-card .badge.sale { background:#ff6b6b; }
+  .product-img { background:var(--green-light); height:200px; display:flex; align-items:center; justify-content:center; font-size:72px; }
+  .product-info { padding:16px 20px 20px; }
+  .product-name { font-weight:600; font-size:15px; margin-bottom:4px; }
+  .product-cat { font-size:12px; color:var(--muted); margin-bottom:10px; }
+  .product-rating { display:flex; align-items:center; gap:4px; margin-bottom:12px; }
+  .stars { color:#f9a825; font-size:13px; }
+  .rating-count { font-size:12px; color:var(--muted); }
+  .product-footer { display:flex; align-items:center; justify-content:space-between; }
+  .product-price { font-size:20px; font-weight:700; color:var(--green-dark); }
+  .product-price .old { font-size:13px; color:var(--muted); text-decoration:line-through; margin-left:6px; font-weight:400; }
+  .add-cart-btn { background:var(--green); color:white; border:none; border-radius:10px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; transition:.2s; }
+  .add-cart-btn:hover { background:var(--green-dark); }
+  .wishlist-btn { position:absolute; top:12px; right:12px; background:white; border:none; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px; box-shadow:0 2px 8px rgba(0,0,0,.1); transition:.2s; }
+  .wishlist-btn:hover { transform:scale(1.15); }
+
+  /* ─── FEATURES BANNER ─── */
+  .features { background:var(--green-light); padding:40px; display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+  .feature { text-align:center; }
+  .feature .icon { font-size:36px; margin-bottom:12px; }
+  .feature h4 { font-weight:600; font-size:15px; margin-bottom:6px; }
+  .feature p { font-size:13px; color:var(--muted); }
+
+  /* ─── CART SIDEBAR ─── */
+  .cart-overlay { position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:1000; opacity:0; pointer-events:none; transition:opacity .3s; }
+  .cart-overlay.open { opacity:1; pointer-events:all; }
+  .cart-sidebar { position:fixed; top:0; right:-420px; width:420px; height:100vh; background:white; z-index:1001; transition:right .35s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; box-shadow:-8px 0 40px rgba(0,0,0,.15); }
+  .cart-sidebar.open { right:0; }
+  .cart-head { background:var(--green); padding:20px 24px; display:flex; justify-content:space-between; align-items:center; }
+  .cart-head h3 { color:white; font-size:18px; font-weight:600; }
+  .cart-close { background:none; border:none; color:white; font-size:24px; cursor:pointer; }
+  .cart-items { flex:1; overflow-y:auto; padding:20px 24px; }
+  .cart-empty { text-align:center; padding:60px 20px; color:var(--muted); }
+  .cart-empty .icon { font-size:60px; margin-bottom:16px; }
+  .cart-item { display:flex; gap:14px; padding:16px 0; border-bottom:1px solid var(--border); align-items:center; }
+  .cart-item-img { width:60px; height:60px; background:var(--green-light); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:28px; flex-shrink:0; }
+  .cart-item-info { flex:1; }
+  .cart-item-name { font-weight:600; font-size:14px; margin-bottom:4px; }
+  .cart-item-price { color:var(--green-dark); font-weight:700; font-size:15px; }
+  .cart-item-qty { display:flex; align-items:center; gap:8px; margin-top:6px; }
+  .qty-btn { width:26px; height:26px; border:1px solid var(--border); background:white; border-radius:6px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; }
+  .qty-btn:hover { background:var(--green-light); }
+  .qty-val { font-size:14px; font-weight:600; min-width:20px; text-align:center; }
+  .cart-remove { background:none; border:none; cursor:pointer; color:#ff6b6b; font-size:18px; }
+  .cart-foot { padding:20px 24px; border-top:1px solid var(--border); }
+  .cart-total { display:flex; justify-content:space-between; font-size:18px; font-weight:700; margin-bottom:16px; }
+  .checkout-btn { width:100%; background:var(--green); color:white; border:none; border-radius:14px; padding:16px; font-size:16px; font-weight:700; cursor:pointer; transition:.2s; }
+  .checkout-btn:hover { background:var(--green-dark); }
+
+  /* ─── MODAL ─── */
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:2000; display:none; align-items:center; justify-content:center; }
+  .modal-overlay.open { display:flex; }
+  .modal { background:white; border-radius:24px; width:600px; max-width:95vw; max-height:90vh; overflow-y:auto; }
+  .modal-img { background:var(--green-light); height:260px; display:flex; align-items:center; justify-content:center; font-size:100px; border-radius:24px 24px 0 0; }
+  .modal-body { padding:28px; }
+  .modal-cat { font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+  .modal-name { font-family:'Playfair Display',serif; font-size:28px; margin-bottom:12px; }
+  .modal-price { font-size:28px; font-weight:700; color:var(--green-dark); margin-bottom:16px; }
+  .modal-desc { color:var(--muted); line-height:1.7; margin-bottom:24px; }
+  .modal-footer { display:flex; gap:12px; }
+  .modal-close { position:absolute; top:16px; right:16px; background:white; border:none; border-radius:50%; width:36px; height:36px; cursor:pointer; font-size:20px; box-shadow:0 2px 10px rgba(0,0,0,.1); z-index:10; }
+
+  /* ─── FOOTER ─── */
+  footer { background:var(--text); color:white; padding:50px 40px 24px; }
+  .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; margin-bottom:40px; }
+  .footer-logo { font-family:'Playfair Display',serif; font-size:22px; color:var(--green-mid); margin-bottom:12px; }
+  .footer-about { font-size:14px; color:rgba(255,255,255,.6); line-height:1.7; }
+  .footer-col h4 { font-size:14px; font-weight:600; color:var(--green-mid); margin-bottom:16px; letter-spacing:.5px; }
+  .footer-col a { display:block; font-size:13px; color:rgba(255,255,255,.55); text-decoration:none; margin-bottom:8px; cursor:pointer; transition:.2s; }
+  .footer-col a:hover { color:var(--green-mid); }
+  .footer-address { font-size:13px; color:rgba(255,255,255,.55); line-height:1.8; }
+  .footer-bottom { border-top:1px solid rgba(255,255,255,.1); padding-top:20px; display:flex; justify-content:space-between; align-items:center; }
+  .footer-bottom p { font-size:13px; color:rgba(255,255,255,.4); }
+  .social-links { display:flex; gap:12px; }
+  .social-btn { width:36px; height:36px; background:rgba(255,255,255,.1); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px; cursor:pointer; transition:.2s; }
+  .social-btn:hover { background:var(--green); }
+
+  /* ─── TOAST ─── */
+  .toast { position:fixed; bottom:30px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--green-dark); color:white; padding:12px 24px; border-radius:12px; font-size:14px; font-weight:600; z-index:3000; opacity:0; transition:.3s; pointer-events:none; }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+  /* ─── WHATSAPP FLOAT ─── */
+  .wa-float { position:fixed; bottom:90px; right:24px; z-index:998; background:#25d366; color:white; border:none; border-radius:50%; width:56px; height:56px; font-size:28px; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 4px 20px rgba(37,211,102,.5); transition:transform .2s; text-decoration:none; }
+  .wa-float:hover { transform:scale(1.12); }
+  .wa-float-label { position:fixed; bottom:104px; right:88px; background:#25d366; color:white; border-radius:20px; padding:6px 14px; font-size:12px; font-weight:600; z-index:998; white-space:nowrap; box-shadow:0 2px 10px rgba(0,0,0,.15); animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.7} }
+
+  /* ─── PHONEPAY MODAL ─── */
+  .pay-modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:3000; display:none; align-items:center; justify-content:center; }
+  .pay-modal-overlay.open { display:flex; }
+  .pay-modal { background:white; border-radius:24px; width:460px; max-width:95vw; overflow:hidden; box-shadow:0 24px 80px rgba(0,0,0,.25); }
+  .pay-modal-head { background:linear-gradient(135deg,#5f259f,#8a2be2); padding:28px 28px 20px; color:white; position:relative; }
+  .pay-modal-head h3 { font-size:22px; font-weight:700; margin-bottom:4px; }
+  .pay-modal-head p { font-size:13px; opacity:.85; }
+  .pay-close { position:absolute; top:16px; right:16px; background:rgba(255,255,255,.2); border:none; border-radius:50%; width:32px; height:32px; color:white; font-size:18px; cursor:pointer; }
+  .pay-body { padding:28px; }
+  .pay-amount-box { background:#f4f0ff; border-radius:16px; padding:20px; text-align:center; margin-bottom:24px; }
+  .pay-amount-box .label { font-size:13px; color:#8a2be2; font-weight:600; margin-bottom:6px; }
+  .pay-amount-box .amount { font-size:36px; font-weight:800; color:#5f259f; font-family:'Playfair Display',serif; }
+  .pay-methods { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px; }
+  .pay-method { border:2px solid #e8e0ff; border-radius:14px; padding:14px; text-align:center; cursor:pointer; transition:.2s; }
+  .pay-method:hover, .pay-method.selected { border-color:#5f259f; background:#f4f0ff; }
+  .pay-method .micon { font-size:28px; margin-bottom:6px; }
+  .pay-method .mlabel { font-size:12px; font-weight:600; color:#5f259f; }
+  .pay-input { width:100%; border:2px solid #e8e0ff; border-radius:12px; padding:12px 16px; font-size:15px; outline:none; margin-bottom:16px; font-family:'DM Sans',sans-serif; }
+  .pay-input:focus { border-color:#5f259f; }
+  .pay-btn { width:100%; background:linear-gradient(135deg,#5f259f,#8a2be2); color:white; border:none; border-radius:14px; padding:16px; font-size:16px; font-weight:700; cursor:pointer; transition:.2s; display:flex; align-items:center; justify-content:center; gap:10px; }
+  .pay-btn:hover { opacity:.92; transform:translateY(-1px); }
+  .pay-secure { text-align:center; font-size:12px; color:#999; margin-top:12px; }
+  .pay-success { text-align:center; padding:40px 28px; display:none; }
+  .pay-success .tick { font-size:64px; margin-bottom:16px; }
+  .pay-success h3 { font-size:22px; font-weight:700; color:#5f259f; margin-bottom:8px; }
+  .pay-success p { color:var(--muted); font-size:14px; }
+
+  /* ─── CONTACT PAGE ─── */
+  .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:32px; }
+  .contact-card { background:white; border:1px solid var(--border); border-radius:20px; padding:28px; }
+  .wa-big-btn { display:flex; align-items:center; gap:16px; background:#25d366; color:white; border:none; border-radius:16px; padding:18px 24px; font-size:16px; font-weight:700; cursor:pointer; width:100%; margin-top:20px; transition:.2s; text-decoration:none; }
+  .wa-big-btn:hover { background:#20b958; transform:translateY(-2px); box-shadow:0 8px 24px rgba(37,211,102,.4); }
+  .wa-big-btn .wa-icon { font-size:32px; }
+  @media(max-width:768px){ .contact-grid { grid-template-columns:1fr; } }
+
+  /* ─── PROMO BANNER ─── */
+  .promo { background:var(--green); color:white; text-align:center; padding:12px; font-size:14px; font-weight:500; letter-spacing:.3px; }
+  .promo span { font-weight:700; }
+
+  /* ─── RESPONSIVE ─── */
+  @media(max-width:768px){
+    .hero { flex-direction:column; padding:40px 20px; }
+    .hero-img { display:none; }
+    .header-inner { padding:0; }
+    header { padding:0 16px; }
+    nav { display:none; }
+    .section { padding:40px 20px; }
+    .features { grid-template-columns:1fr 1fr; padding:30px 20px; }
+    .footer-grid { grid-template-columns:1fr; }
+    .cart-sidebar { width:100%; right:-100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PROMO -->
+<div class="promo">🎉 Grand Opening Sale! <span>Up to 40% OFF</span> on all furniture — Free delivery in city limits!</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">🏠</div>
+      <div class="logo-text">
+        <h1>Ganesh Enterprises</h1>
+        <span>Furniture & Home Appliances</span>
+      </div>
+    </div>
+    <nav>
+      <a class="active" onclick="showPage('home')">Home</a>
+      <a onclick="showPage('products')">Products</a>
+      <a onclick="showPage('location')">Our Store</a>
+      <a onclick="showPage('about')">About</a>
+      <a onclick="showPage('contact')">Contact</a>
+    </nav>
+    <div class="header-right">
+      <div class="search-bar">
+        <span>🔍</span>
+        <input type="text" id="searchInput" placeholder="Search furniture…" oninput="filterProducts()"/>
+      </div>
+      <button class="cart-btn" onclick="openCart()">
+        🛒
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- CATEGORY BAR -->
+<div class="cat-bar">
+  <button class="cat-btn active" onclick="filterCategory('All',this)">🏠 All</button>
+  <button class="cat-btn" onclick="filterCategory('Seating',this)">🪑 Seating</button>
+  <button class="cat-btn" onclick="filterCategory('Bedroom',this)">🛏️ Bedroom</button>
+  <button class="cat-btn" onclick="filterCategory('Storage',this)">🗄️ Storage</button>
+  <button class="cat-btn" onclick="filterCategory('Electronics',this)">📺 Electronics</button>
+  <button class="cat-btn" onclick="filterCategory('Appliances',this)">🧊 Appliances</button>
+  <button class="cat-btn" onclick="filterCategory('Kitchen',this)">🥣 Kitchen</button>
+</div>
+
+<!-- PAGES -->
+<div id="page-home">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <span class="hero-tag">✨ New Arrivals 2026</span>
+      <h2>Furnish Your <span>Dream Home</span> with Style</h2>
+      <p>Discover premium furniture and home appliances at Ganesh Enterprises. Quality craftsmanship, elegant design, and unbeatable prices — all under one roof.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('products')">🛋️ Shop Now</button>
+        <button class="btn-outline" onclick="showPage('location')">📍 Find Our Store</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><strong>20+</strong><small>Products</small></div>
+        <div class="stat"><strong>500+</strong><small>Happy Customers</small></div>
+        <div class="stat"><strong>3+</strong><small>Years Experience</small></div>
+      </div>
+    </div>
+    <div class="hero-img">
+      <div class="hero-img-card tall"><div class="emoji">🛋️</div><p>Sofas</p></div>
+      <div class="hero-img-card"><div class="emoji">🛏️</div><p>Beds</p></div>
+      <div class="hero-img-card"><div class="emoji">📺</div><p>Electronics</p></div>
+    </div>
+  </section>
+
+  <!-- FEATURED PRODUCTS -->
+  <section class="section">
+    <div class="section-header">
+      <h2 class="section-title">Featured <span>Products</span></h2>
+      <button class="see-all" onclick="showPage('products')">See All →</button>
+    </div>
+    <div class="product-grid" id="featuredGrid"></div>
+  </section>
+</div>
+
+<!-- PRODUCTS PAGE -->
+<div id="page-products" style="display:none">
+  <section class="section">
+    <div class="section-header">
+      <h2 class="section-title">All <span>Products</span></h2>
+      <span id="productCount" style="font-size:14px;color:var(--muted)"></span>
+    </div>
+    <div class="product-grid" id="allProductsGrid"></div>
+  </section>
+</div>
+
+<!-- LOCATION PAGE -->
+<div id="page-location" style="display:none">
+  <section class="section" style="max-width:800px;margin:0 auto">
+    <h2 class="section-title" style="margin-bottom:32px">Our <span>Store Location</span></h2>
+    <div style="background:var(--green-light);border-radius:24px;padding:40px;display:flex;gap:40px;flex-wrap:wrap;margin-bottom:32px">
+      <div style="flex:1;min-width:220px">
+        <div style="font-size:60px;margin-bottom:16px">📍</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:12px;color:var(--green-dark)">Ganesh Enterprises</h3>
+        <p style="font-size:15px;line-height:1.8;color:var(--muted)">Chikiya Chuathar,<br/>bhadohi durgaganj road<br/>Suriyawan, Bhadohi<br/>Uttar Pradesh, India</p>
+      </div>
+      <div style="flex:1;min-width:220px;display:flex;flex-direction:column;gap:16px">
+        <div style="background:white;border-radius:16px;padding:16px;display:flex;gap:14px;align-items:center">
+          <span style="font-size:28px">📞</span>
+          <div><div style="font-size:12px;color:var(--muted)">Phone</div><div style="font-weight:600">+91 6389820740</div></div>
+        </div>
+        <div style="background:white;border-radius:16px;padding:16px;display:flex;gap:14px;align-items:center">
+          <span style="font-size:28px">🕐</span>
+          <div><div style="font-size:12px;color:var(--muted)">Store Hours</div><div style="font-weight:600">Mon–Sun: 9 AM – 8 PM</div></div>
+        </div>
+        <div style="background:white;border-radius:16px;padding:16px;display:flex;gap:14px;align-items:center">
+          <span style="font-size:28px">📧</span>
+          <div><div style="font-size:12px;color:var(--muted)">Email</div><div style="font-weight:600">ganeshenterpriseschauthar<br/>@gmail.com</div></div>
+        </div>
+        <div style="background:white;border-radius:16px;padding:16px;display:flex;gap:14px;align-items:center">
+          <span style="font-size:28px">🅾</span>
+          <div><div style="font-size:12px;color:var(--muted)">Instagram</div><div style="font-weight:600">ganeshenterprises07</div></div>
+        </div>
+      </div>
+    </div>
+    <!-- Map Placeholder -->
+    <div style="background:var(--green-light);border-radius:20px;height:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px dashed var(--green-mid)">
+      <div style="font-size:60px;margin-bottom:16px">🗺️</div>
+      <p style="font-size:16px;font-weight:600;color:var(--green-dark)">Ganesh Enterprises</p>
+      <p style="font-size:14px;color:var(--muted);margin-top:8px">Chikiya Chuathar, Suriyawan, Bhadohi</p>
+      <button class="btn-primary" style="margin-top:20px" onclick="window.open('https://maps.app.goo.gl/23YS7pXjdttDR6356','_blank')">Open in Google Maps 🗺️</button>
+    </div>
+  </section>
+</div>
+
+<!-- ABOUT PAGE -->
+<div id="page-about" style="display:none">
+  <section class="section" style="max-width:700px;margin:0 auto;text-align:center">
+    <div style="font-size:80px;margin-bottom:24px">🏪</div>
+    <h2 class="section-title" style="margin-bottom:20px">About <span>Us</span></h2>
+    <p style="font-size:16px;line-height:1.8;color:var(--muted);margin-bottom:32px">Ganesh Enterprises has been serving the people of Bhadohi for over 15 years. We offer a wide selection of quality furniture and home appliances at the most competitive prices. Our commitment is to help you create a beautiful, comfortable home.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;text-align:left">
+      <div style="background:var(--green-light);border-radius:16px;padding:24px">
+        <div style="font-size:32px;margin-bottom:12px">🎯</div>
+        <h4 style="margin-bottom:8px;">Our Mission</h4>
+        <p style="font-size:14px;color:var(--muted)">To provide quality furniture and appliances at affordable prices with excellent customer service.</p>
+      </div>
+      <div style="background:var(--green-light);border-radius:16px;padding:24px">
+        <div style="font-size:32px;margin-bottom:12px">💎</div>
+        <h4 style="margin-bottom:8px;">Our Values</h4>
+        <p style="font-size:14px;color:var(--muted)">Honesty, quality, and customer satisfaction are at the core of everything we do.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- CONTACT PAGE -->
+<div id="page-contact" style="display:none">
+  <section class="section" style="max-width:900px;margin:0 auto">
+    <h2 class="section-title" style="margin-bottom:8px">Contact <span>Us</span></h2>
+    <p style="color:var(--muted);margin-bottom:36px;font-size:15px">We're here to help! Reach us on WhatsApp, call us, or visit our store.</p>
+    <div class="contact-grid">
+      <!-- WhatsApp Card -->
+      <div class="contact-card">
+        <div style="font-size:40px;margin-bottom:12px">💬</div>
+        <h3 style="font-size:20px;margin-bottom:8px;">Chat on WhatsApp</h3>
+        <p style="color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:4px">Get instant replies! Chat with us directly on WhatsApp for product queries, orders, and support.</p>
+        <p style="color:var(--muted);font-size:13px;margin-bottom:4px">📞 +91 6389820740</p>
+        <p style="color:var(--green-dark);font-size:13px;font-weight:600;">🟢 Usually replies within minutes</p>
+        <a class="wa-big-btn" href="https://wa.me/6389820740?text=Hello%20Ganesh%20Enterprises!%20I%20am%20interested%20in%20your%20furniture%20products." target="_blank">
+          <span class="wa-icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="white"/><path d="M16 5C9.925 5 5 9.925 5 16c0 2.01.527 3.9 1.45 5.528L5 27l5.618-1.425A10.94 10.94 0 0016 27c6.075 0 11-4.925 11-11S22.075 5 16 5zm0 1.8a9.2 9.2 0 110 18.4 9.2 9.2 0 010-18.4zm-3.16 4.64c-.207 0-.544.078-.828.39-.284.312-1.083 1.058-1.083 2.579s1.109 2.994 1.263 3.201c.155.207 2.163 3.403 5.28 4.636 2.611 1.03 3.143.826 3.71.774.569-.052 1.835-.75 2.094-1.474.259-.724.259-1.345.181-1.475-.077-.13-.284-.207-.594-.362-.31-.155-1.834-.904-2.118-1.007-.284-.103-.49-.155-.697.155-.207.31-.8.98-.98 1.187-.18.207-.362.233-.672.078-.31-.155-1.308-.482-2.491-1.537-.921-.82-1.542-1.833-1.723-2.143-.18-.31-.02-.477.136-.632.14-.14.31-.362.465-.543.155-.181.207-.31.31-.517.103-.207.052-.388-.026-.543-.077-.155-.69-1.68-.948-2.297-.25-.6-.505-.518-.697-.527l-.594-.01z" fill="#25d366"/></svg>
+          </span>
+          <div style="text-align:left">
+            <div style="font-size:15px">Chat with us on WhatsApp</div>
+            <div style="font-size:11px;opacity:.85;font-weight:400">Tap to open WhatsApp</div>
+          </div>
+        </a>
+        <!-- Quick message buttons -->
+        <div style="margin-top:16px">
+          <p style="font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:600;">QUICK MESSAGES:</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <a href="https://wa.me/916389820740?text=I%20want%20to%20know%20about%20sofa%20sets" target="_blank" style="background:var(--green-light);color:var(--green-dark);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;text-decoration:none;border:1px solid var(--green-mid);">🛋️ Sofa Inquiry</a>
+            <a href="https://wa.me/916389820740?text=I%20want%20to%20know%20about%20bed%20options" target="_blank" style="background:var(--green-light);color:var(--green-dark);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;text-decoration:none;border:1px solid var(--green-mid);">🛏️ Bed Inquiry</a>
+            <a href="https://wa.me/916389820740?text=I%20need%20a%20price%20quote%20for%20furniture" target="_blank" style="background:var(--green-light);color:var(--green-dark);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;text-decoration:none;border:1px solid var(--green-mid);">💰 Price Quote</a>
+            <a href="https://wa.me/916389820740?text=I%20need%20help%20with%20my%20order" target="_blank" style="background:var(--green-light);color:var(--green-dark);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;text-decoration:none;border:1px solid var(--green-mid);">📦 Order Help</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info Card -->
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <div class="contact-card">
+          <div style="font-size:32px;margin-bottom:10px">📍</div>
+          <h4 style="margin-bottom:6px;">Visit Our Store</h4>
+          <p style="color:var(--muted);font-size:14px;line-height:1.8;">Chikiya Chuathar, Suriyawan<br/>Bhadohi, Uttar Pradesh, India</p>
+          <button class="btn-primary" style="margin-top:14px;padding:10px 20px;font-size:13px" onclick="showPage('location')">View on Map 🗺️</button>
+        </div>
+        <div class="contact-card">
+          <div style="font-size:32px;margin-bottom:10px">📞</div>
+          <h4 style="margin-bottom:6px;">Call Us</h4>
+          <p style="color:var(--muted);font-size:14px;margin-bottom:10px;">Mon–Sun: 9 AM – 8 PM</p>
+          <a href="tel:+91 6389820740" style="display:inline-flex;align-items:center;gap:8px;background:var(--green);color:white;border-radius:12px;padding:10px 20px;font-size:14px;font-weight:600;text-decoration:none;">📞 +91 6389820740</a>
+        </div>
+        <div class="contact-card" style="background:var(--green-light);border-color:var(--green-mid)">
+          <div style="font-size:32px;margin-bottom:10px">⚡</div>
+          <h4 style="margin-bottom:6px;color:var(--green-dark)">Send Quick Message</h4>
+          <input class="pay-input" id="waName" placeholder="Your Name" style="margin-bottom:10px"/>
+          <input class="pay-input" id="waMsg" placeholder="Your message..." style="margin-bottom:10px"/>
+          <button class="wa-big-btn" style="padding:12px 18px;font-size:14px" onclick="sendWAMessage()">
+            <span style="font-size:22px">💬</span>
+            <span>Send via WhatsApp</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">🏠 Ganesh Enterprises</div>
+      <p class="footer-about">Your trusted furniture and home appliance store in chakiya chauthar Suriyawan Bhadohi. Quality products, honest prices, exceptional service.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a onclick="showPage('home')">Home</a>
+      <a onclick="showPage('products')">Products</a>
+      <a onclick="showPage('location')">Our Store</a>
+      <a onclick="showPage('about')">About Us</a>
+      <a onclick="showPage('contact')">Contact Us</a>
+    </div>
+    <div class="footer-col">
+      <h4>Categories</h4>
+      <a onclick="filterCategory('Seating');showPage('products')">Seating</a>
+      <a onclick="filterCategory('Bedroom');showPage('products')">Bedroom</a>
+      <a onclick="filterCategory('Electronics');showPage('products')">Electronics</a>
+      <a onclick="filterCategory('Appliances');showPage('products')">Appliances</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <div class="footer-address">
+        📍 Chikiya Chuathar,<br/>Suriyawan, Bhadohi<br/>UP, India<br/><br/>
+        📞 +91 6389820740<br/>
+        🕐 Mon–Sun: 9 AM – 8 PM
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Ganesh Enterprises. All rights reserved.</p>
+    <div class="social-links">
+      <div class="social-btn" title="Facebook">📘</div>
+      <div class="social-btn" title="Instagram">📸</div>
+      <a class="social-btn" href="https://wa.me/916389820740" target="_blank" title="WhatsApp" style="text-decoration:none;color:white">💬</a>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<div class="wa-float-label">💬 Chat with us!</div>
+<a class="wa-float" href="https://wa.me/916389820740?text=Hello%20Ganesh%20Enterprises!%20I%20am%20interested%20in%20your%20products." target="_blank" title="Chat on WhatsApp">
+  <svg width="30" height="30" viewBox="0 0 32 32" fill="none"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.48.648 4.808 1.784 6.816L2 30l7.384-1.752A13.9 13.9 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 2.2a11.8 11.8 0 110 23.6A11.8 11.8 0 0116 4.2zm-3.96 5.76c-.26 0-.68.098-1.036.488-.356.39-1.355 1.323-1.355 3.224s1.387 3.743 1.579 4.001c.193.259 2.703 4.253 6.6 5.795 3.264 1.288 3.929 1.032 4.638.968.71-.065 2.294-.938 2.618-1.843.323-.905.323-1.681.226-1.843-.097-.163-.356-.26-.743-.453-.388-.194-2.294-1.13-2.648-1.259-.355-.129-.614-.194-.872.194-.258.387-1 1.225-1.225 1.484-.226.259-.452.291-.84.097-.388-.194-1.635-.602-3.114-1.922-1.15-1.025-1.927-2.291-2.154-2.679-.226-.388-.024-.596.17-.79.174-.174.388-.453.581-.678.194-.226.259-.388.388-.646.129-.259.065-.485-.033-.679-.097-.194-.862-2.1-1.185-2.871-.313-.75-.631-.648-.872-.659l-.743-.012z" fill="white"/></svg>
+</a>
+
+<!-- PHONEPAY MODAL -->
+<div class="pay-modal-overlay" id="payModalOverlay" onclick="closePayModal(event)">
+  <div class="pay-modal">
+    <div class="pay-modal-head">
+      <button class="pay-close" onclick="closePayModalDirect()">✕</button>
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px">
+        <div style="background:white;border-radius:12px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:28px;">💜</div>
+        <div>
+          <h3>PhonePe Payment</h3>
+          <p>Secure · Fast · Reliable</p>
+        </div>
+      </div>
+    </div>
+    <div class="pay-body" id="payBody">
+      <div class="pay-amount-box">
+        <div class="label">TOTAL AMOUNT TO PAY</div>
+        <div class="amount" id="payAmount">₹0</div>
+      </div>
+      <p style="font-size:13px;font-weight:600;color:#5f259f;margin-bottom:12px;">SELECT PAYMENT METHOD</p>
+      <div class="pay-methods">
+        <div class="pay-method selected" onclick="selectMethod(this,'upi')">
+          <div class="micon">📱</div>
+          <div class="mlabel">UPI ID</div>
+        </div>
+        <div class="pay-method" onclick="selectMethod(this,'qr')">
+          <div class="micon">🔲</div>
+          <div class="mlabel">QR Code</div>
+        </div>
+        <div class="pay-method" onclick="selectMethod(this,'card')">
+          <div class="micon">💳</div>
+          <div class="mlabel">Debit/Credit Card</div>
+        </div>
+        <div class="pay-method" onclick="selectMethod(this,'netbanking')">
+          <div class="micon">🏦</div>
+          <div class="mlabel">Net Banking</div>
+        </div>
+      </div>
+      <div id="upiSection">
+        <input class="pay-input" id="upiInput" placeholder="Enter UPI ID (e.g. name@ybl)" />
+      </div>
+      <div id="qrSection" style="display:none;text-align:center;margin-bottom:16px">
+        <div style="background:#f4f0ff;border-radius:16px;padding:24px;display:inline-block">
+          <div style="font-size:80px;line-height:1">🔲</div>
+          <p style="font-size:13px;color:#5f259f;font-weight:600;margin-top:8px">Scan with PhonePe / GPay / Paytm</p>
+          <p style="font-size:12px;color:#999;margin-top:4px">UPI: ganesh.enterprises@ybl</p>
+        </div>
+      </div>
+      <div id="cardSection" style="display:none">
+        <input class="pay-input" placeholder="Card Number" maxlength="19" oninput="formatCard(this)"/>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <input class="pay-input" placeholder="MM/YY" maxlength="5"/>
+          <input class="pay-input" placeholder="CVV" maxlength="3" type="password"/>
+        </div>
+        <input class="pay-input" placeholder="Name on Card"/>
+      </div>
+      <div id="netbankingSection" style="display:none">
+        <select class="pay-input" style="cursor:pointer">
+          <option>Select Your Bank</option>
+          <option>State Bank of India</option>
+          <option>HDFC Bank</option>
+          <option>ICICI Bank</option>
+          <option>Axis Bank</option>
+          <option>Punjab National Bank</option>
+          <option>Bank of Baroda</option>
+          <option>Canara Bank</option>
+          <option>Other Banks</option>
+        </select>
+      </div>
+      <button class="pay-btn" onclick="processPayment()">
+        <span>💜</span> Pay Now via PhonePe
+      </button>
+      <div class="pay-secure">🔒 256-bit SSL Secured · Powered by PhonePe</div>
+    </div>
+    <!-- Success Screen -->
+    <div class="pay-success" id="paySuccess">
+      <div class="tick">✅</div>
+      <h3>Payment Successful!</h3>
+      <p style="margin-bottom:8px">Your order has been placed successfully.</p>
+      <p style="font-size:13px;color:#999;margin-bottom:20px">We will contact you on WhatsApp for delivery details.</p>
+      <a href="https://wa.me/916389820740?text=I%20have%20completed%20my%20payment.%20Please%20confirm%20my%20order." target="_blank" class="wa-big-btn" style="justify-content:center;text-decoration:none">
+        <span style="font-size:24px">💬</span>
+        <span>Track Order on WhatsApp</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-head">
+    <h3>🛒 My Cart</h3>
+    <button class="cart-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot" id="cartFoot" style="display:none">
+    <div class="cart-total"><span>Total</span><span id="cartTotal">₹0</span></div>
+    <button class="checkout-btn" onclick="openPayModal()">💜 Pay with PhonePe →</button>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="productModal">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <div class="modal-img" id="modalImg"></div>
+    <div class="modal-body">
+      <div class="modal-cat" id="modalCat"></div>
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-price" id="modalPrice"></div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-footer">
+        <button class="btn-primary" style="flex:1" id="modalCartBtn">Add to Cart 🛒</button>
+        <button class="btn-outline" style="flex:0 0 auto" onclick="closeModalDirect()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const products = [
+  { id:1,  name:'Royal Sofa Set (3+1+1)', category:'Seating',     emoji:'🛋️', price:24999, oldPrice:34999, rating:4.8, reviews:128, badge:'Best Seller', desc:'Luxurious 5-seater sofa set with premium fabric upholstery. Includes 3-seater sofa and two single-seaters. Perfect for living rooms.' },
+  { id:2,  name:'Wooden Dining Chair',    category:'Seating',     emoji:'🪑', price:2499,  oldPrice:3499,  rating:4.5, reviews:85,  badge:'Sale',        desc:'Solid teak wood dining chair with comfortable cushioned seat. Sturdy and elegant design suitable for dining rooms and offices.' },
+  { id:3,  name:'King Size Bed',          category:'Bedroom',     emoji:'🛏️', price:18999, oldPrice:26999, rating:4.9, reviews:210, badge:'New',          desc:'Spacious king-size bed with storage drawers underneath. Made from premium sheesham wood. Includes headboard with LED lighting.' },
+  { id:4,  name:'Wooden Almirah (4-Door)',category:'Storage',     emoji:'🗄️', price:15999, oldPrice:21999, rating:4.7, reviews:92,  badge:null,           desc:'4-door wardrobe with mirror and ample storage space. Made from termite-resistant wood. Includes hanging rod and shelves.' },
+  { id:5,  name:'Smart LED TV 55"',       category:'Electronics', emoji:'📺', price:39999, oldPrice:55000, rating:4.8, reviews:315, badge:'Hot Deal',     desc:'4K Ultra HD Smart LED TV with Android OS, built-in WiFi, Bluetooth, and voice control. 3-year warranty included.' },
+  { id:6,  name:'Double Door Fridge 350L',category:'Appliances',  emoji:'🧊', price:28999, oldPrice:38000, rating:4.6, reviews:178, badge:'Sale',         desc:'350L frost-free double door refrigerator with inverter compressor. 5-star energy rating, 10-year compressor warranty.' },
+  { id:7,  name:'Tower Air Cooler 60L',   category:'Appliances',  emoji:'💨', price:7999,  oldPrice:10999, rating:4.4, reviews:143, badge:null,           desc:'60-litre desert cooler with honeycomb pads, 3-speed fan, remote control, and 8-hour timer. Cools large rooms efficiently.' },
+  { id:8,  name:'Mixer Grinder 750W',     category:'Kitchen',     emoji:'🥣', price:2999,  oldPrice:4500,  rating:4.6, reviews:220, badge:'Best Value',   desc:'750W powerful mixer grinder with 3 stainless steel jars. Overload protection, 2-year warranty, and anti-vibration feet.' },
+  { id:9,  name:'Dressing Table with Mirror', category:'Bedroom', emoji:'🪞', price:8999,  oldPrice:13000, rating:4.7, reviews:97,  badge:null,           desc:'Elegant wooden dressing table with large frameless mirror, 4 drawers, and a cushioned stool. Available in multiple finishes.' },
+  { id:10, name:'L-Shaped Sofa',          category:'Seating',     emoji:'🛋️', price:32999, oldPrice:45000, rating:4.9, reviews:75,  badge:'Premium',      desc:'Spacious L-shaped sofa with premium leatherette finish. Perfect for large living rooms. High-density foam for lasting comfort.' },
+  { id:11, name:'Single Bed with Storage',category:'Bedroom',     emoji:'🛏️', price:9999,  oldPrice:14000, rating:4.5, reviews:110, badge:null,           desc:'Single bed with hydraulic storage mechanism. Made from engineered wood with walnut finish. Easy to assemble.' },
+  { id:12, name:'Office Chair',           category:'Seating',     emoji:'🪑', price:4999,  oldPrice:7000,  rating:4.6, reviews:190, badge:'Popular',      desc:'Ergonomic office chair with lumbar support, adjustable armrests, and 360° swivel. Mesh back for breathability.' },
+  { id:13, name:'Bookshelf / Display Unit',category:'Storage',    emoji:'📚', price:5999,  oldPrice:8500,  rating:4.4, reviews:63,  badge:null,           desc:'5-shelf wooden bookshelf with open design. Ideal for books, decor, and display items. Pre-assembled, easy installation.' },
+  { id:14, name:'Washing Machine 7kg',    category:'Appliances',  emoji:'🫧', price:22999, oldPrice:30000, rating:4.7, reviews:145, badge:'Sale',         desc:'7kg fully automatic front-load washing machine with 15 wash programs, inbuilt heater, and inverter motor.' },
+  { id:15, name:'Induction Cooktop',      category:'Kitchen',     emoji:'🍳', price:1799,  oldPrice:2800,  rating:4.5, reviews:310, badge:null,           desc:'2000W induction cooktop with 7 power levels, auto shut-off, and child lock. LED display, easy-clean glass surface.' },
+  { id:16, name:'Coffee/Centre Table',    category:'Seating',     emoji:'☕', price:3999,  oldPrice:5500,  rating:4.4, reviews:88,  badge:null,           desc:'Sleek wooden centre table with glass top and lower shelf. Perfect complement for any sofa set in your living room.' },
+];
+
+let cart = [];
+let currentCategory = 'All';
+
+function renderProducts(list, containerId) {
+  const grid = document.getElementById(containerId);
+  if(!grid) return;
+  grid.innerHTML = list.length === 0
+    ? '<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:40px">No products found.</p>'
+    : list.map(p => `
+      <div class="product-card">
+        ${p.badge ? `<span class="badge ${p.badge==='Sale'?'sale':''}">${p.badge}</span>` : ''}
+        <button class="wishlist-btn" title="Wishlist">🤍</button>
+        <div class="product-img" style="cursor:pointer" onclick="openModal(${p.id})">${p.emoji}</div>
+        <div class="product-info">
+          <div class="product-name">${p.name}</div>
+          <div class="product-cat">${p.category}</div>
+          <div class="product-rating">
+            <span class="stars">${'★'.repeat(Math.floor(p.rating))}${p.rating%1?'½':''}</span>
+            <span class="rating-count">(${p.reviews})</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">
+              ₹${p.price.toLocaleString('en-IN')}
+              ${p.oldPrice ? `<span class="old">₹${p.oldPrice.toLocaleString('en-IN')}</span>` : ''}
+            </div>
+            <button class="add-cart-btn" onclick="addToCart(${p.id})">+ Cart</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+}
+
+function filterCategory(cat, el) {
+  currentCategory = cat;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  const filtered = cat === 'All' ? products : products.filter(p => p.category === cat);
+  renderProducts(filtered, 'allProductsGrid');
+  renderProducts(filtered, 'featuredGrid');
+  const count = document.getElementById('productCount');
+  if(count) count.textContent = `${filtered.length} products found`;
+  showPage('products');
+}
+
+function filterProducts() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const filtered = products.filter(p =>
+    (currentCategory === 'All' || p.category === currentCategory) &&
+    (p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q))
+  );
+  renderProducts(filtered, 'allProductsGrid');
+  renderProducts(filtered, 'featuredGrid');
+}
+
+function addToCart(id) {
+  const p = products.find(x => x.id === id);
+  const existing = cart.find(x => x.id === id);
+  if(existing) existing.qty++;
+  else cart.push({...p, qty:1});
+  updateCart();
+  showToast(`✅ ${p.name} added to cart!`);
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(x => x.id !== id);
+  updateCart();
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(x => x.id === id);
+  if(!item) return;
+  item.qty += delta;
+  if(item.qty <= 0) removeFromCart(id);
+  else updateCart();
+}
+
+function updateCart() {
+  const count = cart.reduce((s,x) => s + x.qty, 0);
+  document.getElementById('cartCount').textContent = count;
+  renderCartItems();
+}
+
+function renderCartItems() {
+  const el = document.getElementById('cartItems');
+  const foot = document.getElementById('cartFoot');
+  if(cart.length === 0) {
+    el.innerHTML = `<div class="cart-empty"><div class="icon">🛒</div><p>Your cart is empty</p><button class="btn-primary" style="margin-top:20px" onclick="closeCart();showPage('products')">Shop Now</button></div>`;
+    foot.style.display = 'none';
+  } else {
+    el.innerHTML = cart.map(item => `
+      <div class="cart-item">
+        <div class="cart-item-img">${item.emoji}</div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-price">₹${(item.price * item.qty).toLocaleString('en-IN')}</div>
+          <div class="cart-item-qty">
+            <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+            <span class="qty-val">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+          </div>
+        </div>
+        <button class="cart-remove" onclick="removeFromCart(${item.id})">🗑️</button>
+      </div>
+    `).join('');
+    const total = cart.reduce((s,x) => s + x.price * x.qty, 0);
+    document.getElementById('cartTotal').textContent = '₹' + total.toLocaleString('en-IN');
+    foot.style.display = 'block';
+  }
+}
+
+function openCart() {
+  document.getElementById('cartSidebar').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('open');
+  renderCartItems();
+}
+function closeCart() {
+  document.getElementById('cartSidebar').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+}
+
+function openModal(id) {
+  const p = products.find(x => x.id === id);
+  document.getElementById('modalImg').innerHTML = `<span style="font-size:100px">${p.emoji}</span>`;
+  document.getElementById('modalCat').textContent = p.category;
+  document.getElementById('modalName').textContent = p.name;
+  document.getElementById('modalPrice').innerHTML = `₹${p.price.toLocaleString('en-IN')} ${p.oldPrice ? `<span style="font-size:16px;color:var(--muted);text-decoration:line-through;margin-left:8px">₹${p.oldPrice.toLocaleString('en-IN')}</span>` : ''}`;
+  document.getElementById('modalDesc').textContent = p.desc;
+  document.getElementById('modalCartBtn').onclick = () => { addToCart(id); closeModalDirect(); };
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(e) { if(e.target === document.getElementById('modalOverlay')) closeModalDirect(); }
+function closeModalDirect() { document.getElementById('modalOverlay').classList.remove('open'); }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function openPayModal() {
+  const total = cart.reduce((s,x) => s + x.price * x.qty, 0);
+  document.getElementById('payAmount').textContent = '₹' + total.toLocaleString('en-IN');
+  document.getElementById('payBody').style.display = 'block';
+  document.getElementById('paySuccess').style.display = 'none';
+  document.getElementById('payModalOverlay').classList.add('open');
+}
+function closePayModal(e) { if(e.target === document.getElementById('payModalOverlay')) closePayModalDirect(); }
+function closePayModalDirect() { document.getElementById('payModalOverlay').classList.remove('open'); }
+
+function selectMethod(el, type) {
+  document.querySelectorAll('.pay-method').forEach(m => m.classList.remove('selected'));
+  el.classList.add('selected');
+  ['upiSection','qrSection','cardSection','netbankingSection'].forEach(id => document.getElementById(id).style.display='none');
+  document.getElementById(type+'Section').style.display = 'block';
+}
+
+function formatCard(input) {
+  let v = input.value.replace(/\D/g,'').substring(0,16);
+  input.value = v.replace(/(.{4})/g,'$1 ').trim();
+}
+
+function processPayment() {
+  const btn = document.querySelector('.pay-btn');
+  btn.textContent = '⏳ Processing...';
+  btn.disabled = true;
+  setTimeout(() => {
+    document.getElementById('payBody').style.display = 'none';
+    document.getElementById('paySuccess').style.display = 'block';
+    cart = []; updateCart();
+    btn.innerHTML = '<span>💜</span> Pay Now via PhonePe';
+    btn.disabled = false;
+  }, 2200);
+}
+
+function sendWAMessage() {
+  const name = document.getElementById('waName').value.trim();
+  const msg = document.getElementById('waMsg').value.trim();
+  if(!msg){ showToast('⚠️ Please enter a message'); return; }
+  const text = encodeURIComponent((name ? `Hello, I am ${name}. ` : '') + msg);
+  window.open(`https://wa.me/916389820740?text=${text}`, '_blank');
+}
+
+function showPage(name) {
+  ['home','products','location','about','contact'].forEach(p => {
+    document.getElementById('page-'+p).style.display = p===name ? 'block' : 'none';
+  });
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  const navMap = {home:0,products:1,location:2,about:3,contact:4};
+  const links = document.querySelectorAll('nav a');
+  if(links[navMap[name]]) links[navMap[name]].classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// Init
+renderProducts(products.slice(0,8), 'featuredGrid');
+renderProducts(products, 'allProductsGrid');
+document.getElementById('productCount').textContent = `${products.length} products found`;
+</script>
+</body>
+</html>
